@@ -1,0 +1,15 @@
+{
+  "login": "login",
+  "hi": "hi",
+  "no_account": "Dont have an account?",
+  "register": "Register Now",
+  "email": "Email",
+  "pass": "Password",
+  "username": "User Name",
+  "phone": "Phone",
+  "register": "Register",
+  "yse_account": "Already have an account",
+  "logindone": "Login Success",
+  "loginerror": "Login Error Please Try Again"
+
+}
