@@ -1,39 +1,59 @@
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_chat/core/components/constants.dart';
 import 'package:firebase_chat/core/cubit/state.dart';
+import 'package:firebase_chat/core/network/local/SharedPreferences.dart';
+import 'package:firebase_chat/core/usermodel/model.dart';
+import 'package:firebase_chat/translation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../translation.dart';
-import '../components/constants.dart';
-import '../network/local/SharedPreferences.dart';
 
 class SocialCubit extends Cubit<SocialStates> {
   SocialCubit() : super(SocialInitialState());
 
   static SocialCubit get(context) => BlocProvider.of(context);
 
-  IconData suffix = Icons.visibility_rounded;
-  bool isPasswordShow = true;
-  int currentIndex = 0;
+  SocialUserModel? model;
 
-  int? maxLines;
-  bool seeMore = true;
+  void getUserData() {
+    emit(SocialLoadGetUserSuccessState());
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(token)
+        .get()
+        .then((value) {
+      model = SocialUserModel.fromJson(value.data()!);
+      emit(SocialGetUserSuccessState());
+    }).catchError((error) {
+      emit(SocialGetUserErrorState(error.toString()));
+    });
+  }
 
 
+// ---------------------------------------- change mode
+  bool isappmode = false;
 
-
-
-// ---------------------------------------- change cart
-
+  void onchangeappmode({bool? formShared}) {
+    emit(ChangeThemeloadState());
+    if (formShared != null) {
+      isappmode = formShared;
+      emit(ChangeThemeSuccessState());
+    } else {
+      isappmode = !isappmode;
+      CacheHelper.saveData(key: 'Isdark', value: isappmode).then((value) {
+        emit(ChangeThemeSuccessState());
+      });
+    }
+  }
 // ---------------------------------------- Translation
   void changeLanguage() async {
     isRtl = !isRtl;
 
-    CacheHelper.saveData(key: 'isRtl' , value: isRtl);
+    CacheHelper.saveData(key: 'isRtl', value: isRtl);
     String translation = await rootBundle
         .loadString('assets/translations/${isRtl ? 'ar' : 'en'}.json');
     setTranslation(
@@ -84,5 +104,4 @@ class SocialCubit extends Cubit<SocialStates> {
     }
     emit(InternetState());
   }
-
 }

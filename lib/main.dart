@@ -9,7 +9,9 @@ import 'core/cubit/state.dart';
 import 'core/network/bloc_observer.dart';
 import 'core/network/local/SharedPreferences.dart';
 import 'core/network/remote/dio_helper.dart';
-import 'core/themes.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/themes.dart';
+import 'features/home/home_screen.dart';
 import 'features/login/login_screen.dart';
 
 void main() async {
@@ -20,39 +22,56 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
+  DioHelper.init() ;
+  await CacheHelper.init();
+  bool? isdark = CacheHelper.getData(key: 'Isdark');
   Widget widget;
-  bool onBoarding = CacheHelper.getData(key: 'onBoarding') == null ? false  : CacheHelper.getData(key: 'onBoarding');
-  token = CacheHelper.getData(key: 'token') == null ? null : CacheHelper.getData(key: 'token');
+ // bool onBoarding = CacheHelper.getData(key: 'onBoarding') == null ? false  : CacheHelper.getData(key: 'onBoarding');
+  token = CacheHelper.getData(key: 'uId');
   isRtl = CacheHelper.getData(key: 'isRtl') == null ? false : CacheHelper.getData(key: 'isRtl');
   String translation = await rootBundle
       .loadString('assets/translations/${isRtl ? 'ar' : 'en'}.json');
 
+
+    if (token != null) {
+      widget = HomeLayOut();
+      print(token);
+    } else
+      widget = LoginScreen();
+
   runApp(MyApp(
-    translation: translation, isRtl : isRtl,
+    startWidget: widget, isRtl : isRtl , translation: translation,isdark: isdark,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final String translation;
+  final bool? isdark ;
+  final Widget startWidget;
   final bool isRtl;
-  MyApp({required this.translation, required this.isRtl});
+  final String translation;
+  MyApp({required this.startWidget ,required this.isRtl ,required this.isdark ,required this.translation});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>SocialCubit()
+        ..setTranslation(translation: translation)
         ..checkConnectivity()
-        ..setTranslation(translation: translation),
+        ..getUserData()
+       ..onchangeappmode(formShared: isdark ,)
+      ,
 
       child: BlocConsumer<SocialCubit , SocialStates> (
         listener:  (context, state) {},
         builder:  (context, state) {
+          var cubit =SocialCubit.get(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: ThemeMode.light,
-            home: LoginScreen(),
+            theme: AppTheme().lightTheme,
+            darkTheme: AppTheme().darkTheme,
+
+            themeMode: cubit.isappmode ? ThemeMode.dark : ThemeMode.light,
+            home: startWidget,
           );
         },
       ),
@@ -60,3 +79,71 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/*
+
+ theme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              scaffoldBackgroundColor: Colors.white,
+              appBarTheme:  const AppBarTheme(
+                backwardsCompatibility: false ,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.white ,
+                ),
+                backgroundColor: Colors.white ,
+                elevation: 0.0 ,
+                titleTextStyle: TextStyle(
+                  color: Colors.black ,
+                  fontSize: 20.0 ,
+                  fontWeight: FontWeight.w600 ,
+                ),
+                iconTheme: IconThemeData(
+                  color: Colors.black ,
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: Colors.white ,
+                unselectedItemColor: Colors.grey ,
+                selectedItemColor: Colors.deepOrange ,
+              ),
+              textTheme: TextTheme(
+                bodyText1: TextStyle(
+                  color: Colors.black ,
+                  fontSize: 18.0 ,
+
+                ),
+              ),
+            ),
+            darkTheme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              scaffoldBackgroundColor: Colors.black12,
+              appBarTheme:  AppBarTheme(
+                backwardsCompatibility: false ,
+                systemOverlayStyle: SystemUiOverlayStyle(
+
+                  statusBarColor: Colors.black12 ,
+                ),
+                backgroundColor: Colors.black12 ,
+                elevation: 0.0 ,
+                titleTextStyle: TextStyle(
+                  color: Colors.white ,
+                  fontSize: 20.0 ,
+                  fontWeight: FontWeight.w600 ,
+                ),
+                iconTheme: IconThemeData(
+                  color: Colors.white ,
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: Colors.black12 ,
+                unselectedItemColor: Colors.grey ,
+                selectedItemColor: Colors.deepOrange ,
+              ),
+              textTheme: TextTheme(
+                bodyText1: TextStyle(
+                  color: Colors.white ,
+                  fontSize: 18.0 ,
+
+                ),
+              ),
+            ),
+ */

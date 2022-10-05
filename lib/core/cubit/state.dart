@@ -1,18 +1,15 @@
-
-abstract class SocialStates  {}
+abstract class SocialStates {}
 
 class SocialInitialState extends SocialStates {}
 
-class LoginLoadingState extends SocialStates {}
+class SocialLoadGetUserSuccessState extends SocialStates {}
 
-class LoginSuccessState extends SocialStates {
-}
+class SocialGetUserSuccessState extends SocialStates {}
 
-class LoginChangePasswordState extends SocialStates {}
+class SocialGetUserErrorState extends SocialStates {
+  final String error;
 
-class LoginErrorState extends SocialStates {
-  final String? error;
-  LoginErrorState(this.error);
+  SocialGetUserErrorState(this.error);
 }
 
 // -------------------- Translation
@@ -26,5 +23,9 @@ class LanguageLoaded extends SocialStates {}
 class InternetState extends SocialStates {}
 
 
+// ------------------------------------------language
 
+class ChangeThemeloadState extends SocialStates {}
 
+class ChangeThemeSuccessState extends SocialStates {}
+class ChangeThemeErrorState extends SocialStates {}

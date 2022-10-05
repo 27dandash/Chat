@@ -25,7 +25,7 @@ void printFullText(String text) {
 
 // ------------------- Translation
 bool isRtl = false;
-
+bool isDarkTheme = false;
 TranslationModel appTranslation(context) => SocialCubit.get(context).translationModel;
 
 String displayTranslatedText({
