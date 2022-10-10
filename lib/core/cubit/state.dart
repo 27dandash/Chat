@@ -13,6 +13,10 @@ class SocialGetUserErrorState extends SocialStates {
 }
 
 // -------------------- Translation
+class SocialPasswordVisibilityState extends SocialStates {}
+
+
+// -------------------- Translation
 
 class ChangeLanguageState extends SocialStates {}
 

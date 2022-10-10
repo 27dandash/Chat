@@ -41,6 +41,6 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
     isPassword = !isPassword;
     suffix =
         isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
-    emit(SocialPasswordVisibilityState());
+    emit(SocialLoginPasswordVisibilityState());
   }
 }

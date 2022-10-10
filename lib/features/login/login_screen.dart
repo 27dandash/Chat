@@ -122,6 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value!.isEmpty) {
                                 return 'You have enter Password';
                               }
+                              // else if(value <  ){
+                              //
+                              // }
 
                               return null;
                                 //'You Password is wrong';

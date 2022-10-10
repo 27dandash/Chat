@@ -34,6 +34,28 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
 
+// ---------------------------------------- bottom navigation
+//
+//   int currentIndex = 0;
+//
+//
+//   List<Widget> bottomScreen = [
+//     HomeScreen(),
+//     CategoriesScreen(),
+//     FavouriteScreen(),
+//     SettingsScreen(),
+//   ];
+// ---------------------------------------- change mode
+
+  IconData suffix = Icons.visibility_off_outlined;
+  bool isPassword = true;
+
+  void changepasswordvisibility() {
+    isPassword = !isPassword;
+    suffix =
+    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(SocialPasswordVisibilityState());
+  }
 // ---------------------------------------- change mode
   bool isappmode = false;
 
