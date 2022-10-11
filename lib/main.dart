@@ -12,7 +12,9 @@ import 'core/network/remote/dio_helper.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/themes.dart';
 import 'features/home/home_screen.dart';
+import 'features/login/cubit/cubit.dart';
 import 'features/login/login_screen.dart';
+import 'features/register/cubit/cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,54 +24,70 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  DioHelper.init() ;
+  DioHelper.init();
   await CacheHelper.init();
   bool? isdark = CacheHelper.getData(key: 'Isdark');
   Widget widget;
- // bool onBoarding = CacheHelper.getData(key: 'onBoarding') == null ? false  : CacheHelper.getData(key: 'onBoarding');
+  // bool onBoarding = CacheHelper.getData(key: 'onBoarding') == null ? false  : CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'uId');
-  isRtl = CacheHelper.getData(key: 'isRtl') == null ? false : CacheHelper.getData(key: 'isRtl');
+  isRtl = CacheHelper.getData(key: 'isRtl') == null
+      ? false
+      : CacheHelper.getData(key: 'isRtl');
   String translation = await rootBundle
       .loadString('assets/translations/${isRtl ? 'ar' : 'en'}.json');
 
-
-    if (token != null) {
-      widget = HomeLayOut();
-      print(token);
-    } else
-      widget = LoginScreen();
+  if (token != null) {
+    widget = HomeLayOut();
+    print(token);
+  } else
+    widget = LoginScreen();
 
   runApp(MyApp(
-    startWidget: widget, isRtl : isRtl , translation: translation,isdark: isdark,
+    startWidget: widget,
+    isRtl: isRtl,
+    translation: translation,
+    isdark: isdark,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final bool? isdark ;
+  final bool? isdark;
+
   final Widget startWidget;
   final bool isRtl;
   final String translation;
-  MyApp({required this.startWidget ,required this.isRtl ,required this.isdark ,required this.translation});
+
+  MyApp(
+      {required this.startWidget,
+      required this.isRtl,
+      required this.isdark,
+      required this.translation});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>SocialCubit()
-        ..setTranslation(translation: translation)
-        ..checkConnectivity()
-        ..getUserData()
-       ..onchangeappmode(formShared: isdark ,)
-      ,
-
-      child: BlocConsumer<SocialCubit , SocialStates> (
-        listener:  (context, state) {},
-        builder:  (context, state) {
-          var cubit =SocialCubit.get(context);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SocialCubit>(
+            create: (BuildContext context) => SocialCubit()
+              ..setTranslation(translation: translation)
+              ..checkConnectivity()
+              ..getUserData()
+              ..onchangeappmode(
+                formShared: isdark,
+              )),
+        BlocProvider<SocialLoginCubit>(
+            create: (BuildContext context) => SocialLoginCubit()),
+        BlocProvider<SocialRegisterCubit>(
+            create: (BuildContext context) => SocialRegisterCubit())
+      ],
+      child: BlocConsumer<SocialCubit, SocialStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var cubit = SocialCubit.get(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppTheme().lightTheme,
             darkTheme: AppTheme().darkTheme,
-
             themeMode: cubit.isappmode ? ThemeMode.dark : ThemeMode.light,
             home: startWidget,
           );

@@ -22,15 +22,14 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
   }) {
     emit(SocialRegisterLoadState());
     FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email,
-        password: password)
+        .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) {
-      userCreate(uId: value.user!.uid,
+      userCreate(
+          uId: value.user!.uid,
           email: email,
           name: name,
           password: password,
-          phone: phone );
-
+          phone: phone);
     }).catchError((error) {
       print('Your Error${error.toString()}');
       emit(SocialRegisterErrorState(error.toString()));
@@ -38,11 +37,11 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
   }
 
   void userCreate({
-   required String email,
-   required String password,
-   required String name,
-   required String phone,
-   required String uId,
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required String uId,
   }) {
     emit(SocialCreateUserLoadState());
     SocialUserModel model = SocialUserModel(
@@ -51,16 +50,15 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
         email: email,
         password: password,
         uId: uId,
-      isEmailVerfied: false
-    );
-    FirebaseFirestore.instance.collection('user').doc(uId)
+        isEmailVerfied: false);
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
         .set(model.toMap())
         .then((value) {
-          emit(SocialCreateUserSuccessState());
-    })
-        .catchError((error) {
+      emit(SocialCreateUserSuccessState());
+    }).catchError((error) {
       emit(SocialCreateUserErrorState(error.toString()));
-
     });
   }
 
@@ -70,7 +68,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
   void changepasswordvisibility() {
     isPassword = !isPassword;
     suffix =
-    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+        isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(SocialPasswordVisState());
   }
 }

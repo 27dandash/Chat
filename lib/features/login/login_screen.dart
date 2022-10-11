@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if(state is SocialLoginSuccessState){
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               navigateFinish(context, const HomeLayOut());
+              showToast(toastStates: ToastStates.SUCCESS, message:appTranslation(context).logindone);
             });
           }
           if(state is SocialLoginErrorState){
@@ -45,132 +46,121 @@ class _LoginScreenState extends State<LoginScreen> {
             textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
 
             child: Scaffold(
-              appBar: AppBar(
-                leading: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: InkWell(
-                      onTap: (){
-                        SocialCubit.get(context).changeLanguage();
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://images.wallpaperscraft.com/image/single/building_showcase_art_140944_1280x720.jpg'),
-                        radius: 3,
-                      )),
-                ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(appTranslation(context).login,
-                            style: TextStyle(
-                              fontSize: 40.0,
-                              fontWeight: FontWeight.bold,
+             
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(appTranslation(context).login,
+                              style: TextStyle(
+                                fontSize: 40.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 40.0,
-                          ),
-                          defaultFormField(
-                            controller: emailController,
-                            label:appTranslation(context).email,
-                            prefix: Icons.email,
-                            type: TextInputType.emailAddress,
-                            validate: (String ?  value) {
-                              if (value!.isEmpty) {
-                                return 'email must not be empty';
-                              }
+                            SizedBox(
+                              height: 40.0,
+                            ),
+                            defaultFormField(
+                              controller: emailController,
+                              label:appTranslation(context).email,
+                              prefix: Icons.email,
+                              type: TextInputType.emailAddress,
+                              validate: (String ?  value) {
+                                if (value!.isEmpty) {
+                                  return 'email must not be empty';
+                                }
 
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          defaultFormField(
-                            controller: passwordController,
-                            // onSubmit: (value){ if (formKey.currentState!.validate()) {
-                            //   SocialLoginCubit.get(context).userlogin(
-                            //       email:  emailController.text,
-                            //       password: passwordController.text);
-                            // }},
-                            label: appTranslation(context).pass,
-                            prefix: Icons.lock,
-                            onSubmit: (value){
-                              if (formKey.currentState!.validate()) {
-                                SocialLoginCubit.get(context).userlogin(
-                                    email:  emailController.text,
-                                    password: passwordController.text);
-                              }
-                            },
-                            suffix:SocialLoginCubit.get(context).suffix,
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            defaultFormField(
+                              controller: passwordController,
+                              // onSubmit: (value){ if (formKey.currentState!.validate()) {
+                              //   SocialLoginCubit.get(context).userlogin(
+                              //       email:  emailController.text,
+                              //       password: passwordController.text);
+                              // }},
+                              label: appTranslation(context).pass,
+                              prefix: Icons.lock,
+                              onSubmit: (value){
+                                if (formKey.currentState!.validate()) {
+                                  SocialLoginCubit.get(context).userlogin(
+                                      email:  emailController.text,
+                                      password: passwordController.text);
+                                }
+                              },
+                              suffix:SocialLoginCubit.get(context).suffix,
 
-                            isPassword: isPassword,
-                            suffixPressed: () {
-                              setState(() {
-                                isPassword = !isPassword;
-                              });
-                            },
-                            type: TextInputType.visiblePassword,
-                            validate: (String ?value) {
-                              if (value!.isEmpty) {
-                                return 'You have enter Password';
-                              }
-                              // else if(value <  ){
-                              //
-                              // }
+                              isPassword: isPassword,
+                              suffixPressed: () {
+                                setState(() {
+                                  isPassword = !isPassword;
+                                });
+                              },
+                              type: TextInputType.visiblePassword,
+                              validate: (String ?value) {
+                                if (value!.isEmpty) {
+                                  return 'You have enter Password';
+                                }
+                                // else if(value <  ){
+                                //
+                                // }
 
-                              return null;
-                                //'You Password is wrong';
-                            },
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          ConditionalBuilder(
-                              condition: state is !SocialLoginLoadState,
-                              builder: (context) => defaultButton(
-                                    function: () {
-                                      if (formKey.currentState!.validate()) {
-                                        SocialLoginCubit.get(context).userlogin(
-                                          email:  emailController.text,
-                                          password: passwordController.text);
-                                      }
-                                    },
-                                    text: appTranslation(context).login,
-                                    isUpperCase: true,
-                                  ),
-                              fallback: (context) => Center(child: CircularProgressIndicator())),
-                          SizedBox(
-                            height: 20.0,
-                          ),
+                                return null;
+                                  //'You Password is wrong';
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            ConditionalBuilder(
+                                condition: state is !SocialLoginLoadState,
+                                builder: (context) => defaultButton(
+                                      function: () {
+                                        if (formKey.currentState!.validate()) {
+                                          SocialLoginCubit.get(context).userlogin(
+                                            email:  emailController.text,
+                                            password: passwordController.text);
+                                        }
+                                      },
+                                      text: appTranslation(context).login,
+                                      isUpperCase: true,
+                                    ),
+                                fallback: (context) => Center(child: CircularProgressIndicator())),
+                            SizedBox(
+                              height: 20.0,
+                            ),
 
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                appTranslation(context).no_account,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                 navigateTo(context, Signup());
-                                },
-                                child: Text(
-                                  appTranslation(context).register,
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  appTranslation(context).no_account,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                TextButton(
+                                  onPressed: () {
+                                   navigateTo(context, Signup());
+                                  },
+                                  child: Text(
+                                    appTranslation(context).register,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

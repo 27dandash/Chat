@@ -56,6 +56,7 @@ Widget defaultFormField({
 Widget defaultButton({
   double width = double.infinity,
   Color background = Colors.redAccent,
+  Color ccolor = Colors.redAccent,
   bool isUpperCase = true,
   double radius = 12.0,
   required Function() function,
@@ -73,14 +74,15 @@ Widget defaultButton({
         onPressed: function,
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: const TextStyle(
-            color: Colors.white,
+          style:  TextStyle(
+            color: ccolor,
           ),
         ),
       ),
     );
 
 Widget defaultTextButton({
+
   required Function() function,
   required String text,
 }) =>TextButton(

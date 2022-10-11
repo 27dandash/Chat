@@ -36,6 +36,10 @@ class _SignupState extends State<Signup> {
         listener: (context, state) {
           if(state is SocialCreateUserSuccessState){
             navigateFinish(context, HomeLayOut());
+            showToast(toastStates: ToastStates.SUCCESS, message:appTranslation(context).logindone);
+          }
+          if(state is SocialCreateUserErrorState){
+            showToast(toastStates: ToastStates.SUCCESS, message:state.error);
           }
         },
         builder: (context, state) {
@@ -148,6 +152,7 @@ class _SignupState extends State<Signup> {
                                       if (formKey.currentState!.validate()) {
                                         SocialRegisterCubit.get(context)
                                             .userRegister(
+
                                                 email: _emailController.text,
                                                 name: _nameController.text,
                                                 phone: _phoneController.text,

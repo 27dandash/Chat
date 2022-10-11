@@ -26,6 +26,7 @@ class SocialCubit extends Cubit<SocialStates> {
         .doc(token)
         .get()
         .then((value) {
+          print('============data=============${value.data()!}');
       model = SocialUserModel.fromJson(value.data()!);
       emit(SocialGetUserSuccessState());
     }).catchError((error) {
