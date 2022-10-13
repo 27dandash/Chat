@@ -6,6 +6,10 @@ import 'package:firebase_chat/core/components/constants.dart';
 import 'package:firebase_chat/core/cubit/state.dart';
 import 'package:firebase_chat/core/network/local/SharedPreferences.dart';
 import 'package:firebase_chat/core/usermodel/model.dart';
+import 'package:firebase_chat/features/feeds/feeds%20screen.dart';
+import 'package:firebase_chat/features/schats/chats%20screen.dart';
+import 'package:firebase_chat/features/setting/setting%20screen.dart';
+import 'package:firebase_chat/features/users/users%20screen.dart';
 import 'package:firebase_chat/translation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +30,7 @@ class SocialCubit extends Cubit<SocialStates> {
         .doc(token)
         .get()
         .then((value) {
-          print('============data=============${value.data()!}');
+      print('============data=============${value.data()!}');
       model = SocialUserModel.fromJson(value.data()!);
       emit(SocialGetUserSuccessState());
     }).catchError((error) {
@@ -34,18 +38,29 @@ class SocialCubit extends Cubit<SocialStates> {
     });
   }
 
-
 // ---------------------------------------- bottom navigation
-//
-//   int currentIndex = 0;
-//
-//
-//   List<Widget> bottomScreen = [
-//     HomeScreen(),
-//     CategoriesScreen(),
-//     FavouriteScreen(),
-//     SettingsScreen(),
-//   ];
+
+  int currentIndex = 0;
+
+  List<Widget> bottomScreen = [
+    const FeedsScreen(),
+    const ChatsScreen(),
+    const UsersScreen(),
+    const SettingScreen(),
+  ];
+
+  List<String> titels = [
+    'Home',
+    'Chats',
+    'Users',
+    'Setting',
+  ];
+
+  void changebottomnav(int index) {
+    currentIndex = index;
+    emit(ChangeBottomNavState());
+  }
+
 // ---------------------------------------- change mode
 
   IconData suffix = Icons.visibility_off_outlined;
@@ -54,9 +69,10 @@ class SocialCubit extends Cubit<SocialStates> {
   void changepasswordvisibility() {
     isPassword = !isPassword;
     suffix =
-    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+        isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(SocialPasswordVisibilityState());
   }
+
 // ---------------------------------------- change mode
   bool isappmode = false;
 
@@ -72,6 +88,7 @@ class SocialCubit extends Cubit<SocialStates> {
       });
     }
   }
+
 // ---------------------------------------- Translation
   void changeLanguage() async {
     isRtl = !isRtl;

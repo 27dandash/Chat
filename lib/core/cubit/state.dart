@@ -12,6 +12,8 @@ class SocialGetUserErrorState extends SocialStates {
   SocialGetUserErrorState(this.error);
 }
 
+// --------------------  bottom navigation
+class ChangeBottomNavState extends SocialStates{}
 // -------------------- Translation
 class SocialPasswordVisibilityState extends SocialStates {}
 
