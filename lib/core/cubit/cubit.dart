@@ -38,7 +38,7 @@ class SocialCubit extends Cubit<SocialStates> {
     });
   }
 
-// ---------------------------------------- bottom navigation
+// ----------------------------------------- bottom navigation
 
   int currentIndex = 0;
 

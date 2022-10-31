@@ -13,9 +13,11 @@ class AppTheme {
         primaryColor: AppColors.primary,
         hintColor: AppColors.hint,
         textTheme: TextTheme(
+            // caption: TextStyle(color: AppColors.text, fontSize: 18),
             bodyText1: TextStyle(color: AppColors.text, fontSize: 18),
             headline1: TextStyle(color: AppColors.text, fontSize: 22),
-            bodyText2: TextStyle(color: AppColors.text, fontSize: 16)),
+            bodyText2: TextStyle(color: AppColors.text, fontSize: 16)
+        ),
         disabledColor: Colors.grey,
         fontFamily: null,
         inputDecorationTheme: getBorderedInputDecoration(),
@@ -44,15 +46,14 @@ class AppTheme {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: AppColors.floatingActionButton),
         dividerColor: AppColors.text);
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////// const LinearGradient(
-    //         begin: Alignment.topLeft,
-    //         end: Alignment.bottomRight,
-    //         stops: [0.2, 0.5, 0.7, 1],
-    //         colors: [Colors.black12, Colors.grey, Colors.black54, Colors.black45])
-    // ),
-    /////////////////////////////////////////////////////////////////////////////////////////
+    // ##########################################################################
+   // const LinearGradient(
+   //          begin: Alignment.topLeft,
+   //          end: Alignment.bottomRight,
+   //          stops: [0.2, 0.5, 0.7, 1],
+   //          colors: [Colors.black12, Colors.grey, Colors.black54, Colors.black45]);
+    // ##########################################################################
+
     darkTheme = ThemeData(
         primaryColor: AppColors.primaryDark,
         hintColor: AppColors.hint,
@@ -102,8 +103,7 @@ class AppTheme {
       prefixIconColor: AppColors.textFormFieldIcon,
       suffixIconColor: AppColors.textFormFieldIcon,
       border: const OutlineInputBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(AppRadius.textFormField)),
+        borderRadius: BorderRadius.all(Radius.circular(AppRadius.textFormField)),
       ),
     );
   }
@@ -168,3 +168,72 @@ class AppTheme {
     );
   }
 }
+
+/*
+
+ theme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              scaffoldBackgroundColor: Colors.white,
+              appBarTheme:  const AppBarTheme(
+                backwardsCompatibility: false ,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.white ,
+                ),
+                backgroundColor: Colors.white ,
+                elevation: 0.0 ,
+                titleTextStyle: TextStyle(
+                  color: Colors.black ,
+                  fontSize: 20.0 ,
+                  fontWeight: FontWeight.w600 ,
+                ),
+                iconTheme: IconThemeData(
+                  color: Colors.black ,
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: Colors.white ,
+                unselectedItemColor: Colors.grey ,
+                selectedItemColor: Colors.deepOrange ,
+              ),
+              textTheme: TextTheme(
+                bodyText1: TextStyle(
+                  color: Colors.black ,
+                  fontSize: 18.0 ,
+
+                ),
+              ),
+            ),
+            darkTheme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              scaffoldBackgroundColor: Colors.black12,
+              appBarTheme:  AppBarTheme(
+                backwardsCompatibility: false ,
+                systemOverlayStyle: SystemUiOverlayStyle(
+
+                  statusBarColor: Colors.black12 ,
+                ),
+                backgroundColor: Colors.black12 ,
+                elevation: 0.0 ,
+                titleTextStyle: TextStyle(
+                  color: Colors.white ,
+                  fontSize: 20.0 ,
+                  fontWeight: FontWeight.w600 ,
+                ),
+                iconTheme: IconThemeData(
+                  color: Colors.white ,
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: Colors.black12 ,
+                unselectedItemColor: Colors.grey ,
+                selectedItemColor: Colors.deepOrange ,
+              ),
+              textTheme: TextTheme(
+                bodyText1: TextStyle(
+                  color: Colors.white ,
+                  fontSize: 18.0 ,
+
+                ),
+              ),
+            ),
+ */
