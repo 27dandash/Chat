@@ -8,6 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SocialLoginCubit extends Cubit<SocialLoginStates> {
   SocialLoginCubit() : super(SocialLoginInitialState());
 
+
+
+  // ---------------------------------------- userlogin
+
   static SocialLoginCubit get(context) => BlocProvider.of(context);
 
   void userlogin({
@@ -33,6 +37,9 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
       emit(SocialLoginErrorState(error.toString()));
     });
   }
+
+
+  // ---------------------------------------- changepasswordvisibility
 
   IconData suffix = Icons.visibility_off_outlined;
   bool isPassword = true;

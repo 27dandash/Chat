@@ -1,15 +1,31 @@
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-void navigateTo(context , widget)=>
-Navigator.push(context, MaterialPageRoute(
-        builder: (context)=> widget));
+void navigateTo(context, widget) =>
+    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
-void navigateFinish(context , widget)=>
-  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-      builder: (context)=> widget) , (Route<dynamic> route)=> false,);
+void navigateFinish(context, widget) => Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
+      (Route<dynamic> route) => false,
+    );
+
+AppBar defualtAppBar({
+  required BuildContext context,
+  String? tittle,
+  List<Widget> ?  action,
+}) =>
+    AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_ios),
+      ),
+      title: Text(tittle!),
+      actions: action,
+    );
 
 Widget defaultFormField({
   required TextEditingController controller,
@@ -24,7 +40,8 @@ Widget defaultFormField({
   IconData? suffix,
   Function()? suffixPressed,
   bool isClickable = true,
-}) => Padding(
+}) =>
+    Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextFormField(
         controller: controller,
@@ -42,11 +59,11 @@ Widget defaultFormField({
           ),
           suffixIcon: suffix != null
               ? IconButton(
-            onPressed: suffixPressed,
-            icon: Icon(
-              suffix,
-            ),
-          )
+                  onPressed: suffixPressed,
+                  icon: Icon(
+                    suffix,
+                  ),
+                )
               : null,
           border: const OutlineInputBorder(),
         ),
@@ -56,12 +73,13 @@ Widget defaultFormField({
 Widget defaultButton({
   double width = double.infinity,
   Color background = Colors.redAccent,
-  Color ccolor = Colors.redAccent,
+  Color ccolor = Colors.white,
   bool isUpperCase = true,
   double radius = 12.0,
   required Function() function,
   required String text,
-}) =>Container(
+}) =>
+    Container(
       width: width,
       height: 50.0,
       decoration: BoxDecoration(
@@ -74,7 +92,7 @@ Widget defaultButton({
         onPressed: function,
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style:  TextStyle(
+          style: TextStyle(
             color: ccolor,
           ),
         ),
@@ -82,12 +100,13 @@ Widget defaultButton({
     );
 
 Widget defaultTextButton({
-
   required Function() function,
   required String text,
-}) =>TextButton(
+}) =>
+    TextButton(
       onPressed: function,
       child: Text(
+
         text.toUpperCase(),
       ),
     );
@@ -95,7 +114,8 @@ Widget defaultTextButton({
 void showToast({
   required String message,
   required ToastStates toastStates,
-}) =>Fluttertoast.showToast(
+}) =>
+    Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,

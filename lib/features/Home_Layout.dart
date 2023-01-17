@@ -7,9 +7,10 @@ import 'package:firebase_chat/core/cubit/state.dart';
 import 'package:firebase_chat/features/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../components/constants.dart';
+import 'new_post/new_post.dart';
+import '../core/components/constants.dart';
 
-import '../network/local/SharedPreferences.dart';
+import '../core/network/local/SharedPreferences.dart';
 
 class HomeLayOut extends StatefulWidget {
   const HomeLayOut({Key? key}) : super(key: key);
@@ -26,7 +27,12 @@ class _HomeLayOutState extends State<HomeLayOut> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is SocialNewPostState){
+          navigateTo(context, NewPostScreen());
+
+        }
+      },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
         return Directionality(
@@ -34,8 +40,8 @@ class _HomeLayOutState extends State<HomeLayOut> {
           child: Scaffold(
             appBar: AppBar(
 
-              title: Text(cubit.titels[cubit.currentIndex]),
-              backgroundColor: Colors.black,
+              title: Text(cubit.Titels[cubit.currentIndex]),
+              // backgroundColor: Colors.black,
               actions: [
                  IconButton(onPressed: (){}, icon:  const Icon(Icons.search),),
                  IconButton(onPressed: (){}, icon:  const Icon(Icons.notification_add),)
@@ -45,11 +51,12 @@ class _HomeLayOutState extends State<HomeLayOut> {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndex,
               onTap: (index) {
-                cubit.changebottomnav(index);
+                cubit.Changebottomnav(index);
               },
-              items: const [
+              items:  const [
                 BottomNavigationBarItem(label: 'newspaper',icon: Icon(Icons.newspaper)),
                 BottomNavigationBarItem(label: 'chat',icon: Icon(Icons.chat)),
+                BottomNavigationBarItem(label: 'Post',icon: Icon(Icons.post_add)),
                 BottomNavigationBarItem(label: 'user',icon: Icon(Icons.verified_user_sharp)),
                 BottomNavigationBarItem(label: 'settings',icon: Icon(Icons.settings)),
               ],

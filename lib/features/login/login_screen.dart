@@ -1,7 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_chat/core/components/components.dart';
 import 'package:firebase_chat/core/components/constants.dart';
-import 'package:firebase_chat/core/cubit/Home_Layout.dart';
+import 'package:firebase_chat/features/Home_Layout.dart';
 import 'package:firebase_chat/core/network/local/SharedPreferences.dart';
 import 'package:firebase_chat/features/register/cubit/states.dart';
 import 'package:firebase_chat/features/register/signup.dart';
@@ -118,10 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   //'You Password is wrong';
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20.0,
                             ),
                             ConditionalBuilder(
+
                                 condition: state is !SocialLoginLoadState,
                                 builder: (context) => defaultButton(
                                       function: () {
@@ -134,29 +135,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                       text: appTranslation(context).login,
                                       isUpperCase: true,
                                     ),
-                                fallback: (context) => Center(child: CircularProgressIndicator())),
-                            SizedBox(
+                                fallback: (context) => const Center(child: CircularProgressIndicator())),
+                            const SizedBox(
                               height: 20.0,
                             ),
 
                             SizedBox(
                               height: 10.0,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  appTranslation(context).no_account,
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                   navigateTo(context, Signup());
-                                  },
-                                  child: Text(
+                            TextButton(
+                              onPressed: () {  navigateTo(context, Signup()); },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    appTranslation(context).no_account,style: TextStyle(color: Colors.black),
+                                  ),
+                                  Text(
                                     appTranslation(context).register,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),

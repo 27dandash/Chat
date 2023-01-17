@@ -1,7 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_chat/core/components/components.dart';
 import 'package:firebase_chat/core/components/constants.dart';
-import 'package:firebase_chat/core/cubit/Home_Layout.dart';
+import 'package:firebase_chat/features/Home_Layout.dart';
 import 'package:firebase_chat/features/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -167,21 +167,22 @@ class _SignupState extends State<Signup> {
                           SizedBox(
                             height: 20.0,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  appTranslation(context).yse_account,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  navigateTo(context, LoginScreen());
-                                },
-                                child: Text(
-                                  appTranslation(context).register,
+                          TextButton(
+                            onPressed: (){
+                              navigateTo(context, LoginScreen());
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    appTranslation(context).yse_account,style: TextStyle(color: Colors.black),
                                 ),
-                              ),
-                            ],
+                                Text('?',style: TextStyle(color: Colors.black),),
+                                Text(
+                                  appTranslation(context).login,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

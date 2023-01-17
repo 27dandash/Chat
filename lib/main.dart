@@ -1,4 +1,4 @@
-import 'package:firebase_chat/core/cubit/Home_Layout.dart';
+import 'package:firebase_chat/features/Home_Layout.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,17 +30,16 @@ void main() async {
   Widget widget;
   // bool onBoarding = CacheHelper.getData(key: 'onBoarding') == null ? false  : CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'uId');
-  isRtl = CacheHelper.getData(key: 'isRtl') == null
-      ? false
-      : CacheHelper.getData(key: 'isRtl');
+  isRtl = CacheHelper.getData(key: 'isRtl') ?? false;
   String translation = await rootBundle
       .loadString('assets/translations/${isRtl ? 'ar' : 'en'}.json');
 
   if (token != null) {
-    widget = HomeLayOut();
+    widget = const HomeLayOut();
     print(token);
-  } else
+  } else {
     widget = LoginScreen();
+  }
 
   runApp(MyApp(
     startWidget: widget,
@@ -72,6 +71,8 @@ class MyApp extends StatelessWidget {
               ..setTranslation(translation: translation)
               ..checkConnectivity()
               ..getUserData()
+              ..getPosts()
+               // ..getMessages
               ..onchangeappmode(
                 formShared: isdark,
               )),
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: AppTheme().lightTheme,
             darkTheme: AppTheme().darkTheme,
-            themeMode: cubit.isappmode ? ThemeMode.dark : ThemeMode.light,
+            themeMode: cubit.AppTheme ? ThemeMode.dark : ThemeMode.light,
             home: startWidget,
           );
         },
